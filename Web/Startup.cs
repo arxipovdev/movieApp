@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -24,9 +25,12 @@ namespace Web
             services.AddDbContext<AppDbContext>(options => options.UseSqlite(_connectionString));
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
+            services.AddAutoMapper(typeof(Startup));
+            services.AddHttpContextAccessor();
             services.AddScoped<IProducerRepository, ProducerRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

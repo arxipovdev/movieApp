@@ -1,39 +1,31 @@
-﻿@model IEnumerable<MovieViewModel>
+@model IEnumerable<ProducerViewModel>
 @{
-    ViewData["Title"] = "Главная";
+    ViewData["Title"] = "Режиссеры";
 }
 
-<div class="movie-list">
-    <div class="movie-list__header d-flex justify-content-end">
-        <a class="movie-list__btn-add btn btn-outline-info btn-sm" asp-controller="Home" asp-action="Create">
+<div class="producer-list">
+    <div class="producer-list__header d-flex justify-content-end">
+        <a class="producer-list__btn-add btn btn-outline-info btn-sm" asp-controller="Producer" asp-action="Create">
             <i class="fa fa-plus" aria-hidden="true"></i> Добавить
         </a>
     </div>
-    <table class="movie-list__table table table-hover mt-2">
+    <table class="producer-list__table table table-hover mt-2">
         <thead>
         <tr>
-            <th scope="col">Картинка</th>
-            <th scope="col">Название</th>
-            <th scope="col">Год</th>
-            <th scope="col">Режисер</th>
-            <th scope="col">Описание</th>
+            <th scope="col">Режиссеры</th>
             <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
-        @foreach (var movie in Model)
+        @foreach (var producer in Model)
         {
             <tr>
-                <td>@movie.Post</td>
-                <td>@movie.Name</td>
-                <td>@movie.Year</td>
-                <td>@movie.ProducerName</td>
-                <td>@movie.Description</td>
+                <td>@producer.Name</td>
                 <td>
                     <a class="btn btn-outline-info btn-sm"
-                       asp-controller="Home"
+                       asp-controller="Producer"
                        asp-action="Details"
-                       asp-route-id="@movie.Id"
+                       asp-route-id="@producer.Id"
                        data-toggle="tooltip"
                        data-placement="top"
                        title="Подробнее"
@@ -41,22 +33,22 @@
                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                     </a>
                     <a class="btn btn-outline-info btn-sm"
-                       asp-controller="Home"
+                       asp-controller="Producer"
                        asp-action="Edit"
-                       asp-route-id="@movie.Id"
+                       asp-route-id="@producer.Id"
                        data-toggle="tooltip"
                        data-placement="top"
                        title="Редактировать"
                     >
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
-                    <a class="movie-list__btn-remove btn btn-outline-danger btn-sm"
+                    <a class="producer-list__btn-remove btn btn-outline-danger btn-sm"
                        href="javascript:void(0)"
                        data-toggle="tooltip"
                        data-placement="top"
                        title="Удалить"
-                       data-id="@movie.Id"
-                       data-name="@movie.Name"
+                       data-id="@producer.Id"
+                       data-name="@producer.Name"
                     >
                         <i class="fa fa-trash-o"  aria-hidden="true"></i>
                     </a>
@@ -66,7 +58,7 @@
         </tbody>
     </table>
 
-    <div id="confirmDeletemovieModal" class="modal" tabindex="-1">
+    <div id="confirmDeleteProducerModal" class="modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -80,7 +72,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Отмена</button>
-                    <a href="" class="movie-list__btn-confirm btn btn-outline-info">Удалить</a>
+                    <a href="" class="producer-list__btn-confirm btn btn-outline-info">Удалить</a>
                 </div>
             </div>
           </div>

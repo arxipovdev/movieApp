@@ -1,34 +1,68 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Web.Data;
 using Web.Models;
 
 namespace Web.Repositories
 {
     public class ProducerRepository : IProducerRepository
     {
-        public Task<IEnumerable<Producer>> GetAll()
+        private readonly AppDbContext _db;
+        private readonly string _userId;
+
+        public ProducerRepository(AppDbContext context, IHttpContextAccessor httpContextAccessor)
         {
-            throw new System.NotImplementedException();
+            _db = context;
+            _userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        }
+        public async Task<IEnumerable<Producer>> GetAll()
+        {
+            return await _db.Producers
+                .Where(x => x.DeleteAt == null)
+                .OrderByDescending(x => x.CreateAt)
+                .ToListAsync();
         }
 
-        public Task<Producer> GetById(int id)
+        public async Task<Producer> GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return await _db.Producers.FindAsync(id);
         }
 
-        public Task<bool> Create(Producer producer)
+        public async Task<bool> Create(Producer producer)
         {
-            throw new System.NotImplementedException();
+            producer.UserId = _userId;
+            producer.CreateAt = producer.UpdateAt = DateTime.Now;
+            await _db.AddAsync(producer);
+            var created = await _db.SaveChangesAsync();
+            return created > 0;
         }
 
-        public Task<bool> Update(Producer producer)
+        public async Task<bool> Update(Producer producer)
         {
-            throw new System.NotImplementedException();
+            producer.UpdateAt = DateTime.Now;
+            _db.Update(producer);
+            var updated = await _db.SaveChangesAsync();
+            return updated > 0;
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var producer = await GetById(id);
+            producer.DeleteAt = DateTime.Now;
+            _db.Update(producer);
+            var deleted = await _db.SaveChangesAsync();
+            return deleted > 0;
+        }
+
+        public bool CheckUser(Producer producer)
+        {
+            return _userId == producer.UserId;
         }
     }
 }

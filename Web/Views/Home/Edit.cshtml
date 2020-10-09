@@ -1,0 +1,38 @@
+@model MovieViewModel
+
+<form class="movie" asp-action="Edit" asp-controller="Home">
+    <div class="form-row">
+        <div class="movie__name form-group col-md-6 col-sm-6 col-12">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="movie__year form-group col-md-6 col-sm-6 col-12">
+            <label asp-for="Year"></label>
+            <input asp-for="Year" class="form-control">
+            <span asp-validation-for="Year" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6 col-sm-6 col-12">
+            <label asp-for="ProducerId"></label>
+            <select asp-for="ProducerId" class="form-control">
+                @foreach (var producer in ViewBag.producers)
+                {
+                    <option value="@producer.Id">@producer.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="movie__description form-group col-md-6 col-sm-6 col-12">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" rows="3" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm" asp-controller="Home" asp-action="Index">Отмена</a>
+    <input type="submit" class="btn btn-outline-info btn-sm" value="Сохранить">
+</form>

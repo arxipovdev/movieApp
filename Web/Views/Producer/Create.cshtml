@@ -1,0 +1,32 @@
+@model ProducerViewModel
+
+<form class="producer" asp-action="Create" asp-controller="Producer">
+    <div class="form-row">
+        <div class="producer__firstName form-group col-md-4 col-sm-6 col-12">
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="form-control">
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="producer__lastName form-group col-md-4 col-sm-6 col-12">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" class="form-control">
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="producer__middleName form-group col-md-4 col-sm-6 col-12">
+            <label asp-for="MiddleName"></label>
+            <input asp-for="MiddleName" class="form-control">
+            <span asp-validation-for="MiddleName" class="text-danger"></span>
+        </div>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <a class="btn btn-outline-secondary btn-sm" asp-controller="Producer" asp-action="Index">Назад</a>
+    <input type="submit" class="btn btn-outline-info btn-sm" value="Сохранить">
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

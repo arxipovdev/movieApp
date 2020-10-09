@@ -1,4 +1,11 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
 
-// Write your JavaScript code.
+    $('.producer-list__btn-remove').on('click', function () {
+        const id = $(this).data('id')
+        const name = $(this).data('name')
+        $('#confirmDeleteProducerModal .modal-body span').text(name)
+        $('#confirmDeleteProducerModal a.producer-list__btn-confirm').attr('href', `/Producer/Delete/${id}`)
+        $('#confirmDeleteProducerModal').modal('show')
+    })
+})

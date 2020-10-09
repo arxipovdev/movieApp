@@ -11,5 +11,6 @@ namespace Web.Repositories
         Task<bool> Create(T entity);
         Task<bool> Update(T entity);
         Task<bool> Delete(int id);
+        bool CheckUser(T entity);
     }
 }

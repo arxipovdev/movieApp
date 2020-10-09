@@ -1,0 +1,24 @@
+@model ProducerViewModel
+
+<div class="producer">
+    <div class="form-row">
+        <div class="producer__firstName form-group col-md-4 col-sm-6 col-12">
+            <label for="firstName">Имя</label>
+            <input id="firstName" class="form-control" value="@Model.FirstName" readonly>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="producer__lastName form-group col-md-4 col-sm-6 col-12">
+            <label for="lastName">Фамилия</label>
+            <input id="lastName" class="form-control" value="@Model.LastName" readonly>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="producer__middleName form-group col-md-4 col-sm-6 col-12">
+            <label for="middleName">Отчество</label>
+            <input id="middleName" class="form-control" value="@Model.MiddleName" readonly>
+        </div>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm" asp-controller="Producer" asp-action="Index">Назад</a>
+    <a class="btn btn-outline-info btn-sm" asp-controller="Producer" asp-action="Edit" asp-route-id="@Model.Id">Редактировать</a>
+</div>
