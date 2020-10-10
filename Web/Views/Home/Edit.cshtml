@@ -1,4 +1,4 @@
-@model MovieViewModel
+@model MovieEditViewModel
 
 <form class="movie" asp-action="Edit" asp-controller="Home">
     <div class="form-row">
@@ -29,8 +29,28 @@
     <div class="form-row">
         <div class="movie__description form-group col-md-6 col-sm-6 col-12">
             <label asp-for="Description"></label>
-            <textarea asp-for="Description" rows="3" class="form-control"></textarea>
+            <textarea asp-for="Description" rows="5" class="form-control"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="movie__file form-group col-md-6 col-sm-6 col-12">
+            <div id="movie__file-edited" class="fileinput fileinput-new" data-provides="fileinput">
+                <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" style="width: 200px; height: 250px;">
+                    @if (!string.IsNullOrEmpty(Model.Post)) { <img src="/uploads/@Model.Post" alt="@Model.Name"> }
+                    else { <img src="https://via.placeholder.com/200x250.png" alt=""> }
+                </div>
+                <span asp-validation-for="Post" class="text-danger mb-1" style="display: block;"></span>
+                <div>
+                    <span class="btn btn-outline-secondary btn-sm btn-file">
+                        <span class="fileinput-new">Выбрать постер</span>
+                        <span class="fileinput-exists">Изменить</span>
+                        <input id="file" type="file">
+                    </span>
+                    <a href="#" class="btn btn-sm btn-outline-secondary fileinput-exists" data-dismiss="fileinput">Удалить</a>
+                </div>
+            </div>
+            <input class="movie__post" type="hidden" asp-for="Post">
         </div>
     </div>
     <a class="btn btn-outline-secondary btn-sm" asp-controller="Home" asp-action="Index">Отмена</a>

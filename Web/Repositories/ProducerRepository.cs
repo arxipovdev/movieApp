@@ -14,12 +14,12 @@ namespace Web.Repositories
     public class ProducerRepository : IProducerRepository
     {
         private readonly AppDbContext _db;
-        private readonly string _userId;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ProducerRepository(AppDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _db = context;
-            _userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<IEnumerable<Producer>> GetAll()
         {
@@ -36,7 +36,7 @@ namespace Web.Repositories
 
         public async Task<bool> Create(Producer producer)
         {
-            producer.UserId = _userId;
+            producer.UserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             producer.CreateAt = producer.UpdateAt = DateTime.Now;
             await _db.AddAsync(producer);
             var created = await _db.SaveChangesAsync();
@@ -62,7 +62,7 @@ namespace Web.Repositories
 
         public bool CheckUser(Producer producer)
         {
-            return _userId == producer.UserId;
+            return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value == producer.UserId;
         }
     }
 }

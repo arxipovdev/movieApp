@@ -16,7 +16,7 @@
     <div class="form-row">
         <div class="form-group col-md-6 col-sm-6 col-12">
             <label asp-for="ProducerId"></label>
-            <select asp-for="ProducerId" class="form-control">
+            <select asp-for="ProducerId" class="form-control" readonly>
                 @foreach (var producer in ViewBag.producers)
                 {
                     <option value="@producer.Id">@producer.Name</option>
@@ -27,9 +27,15 @@
     <div class="form-row">
         <div class="movie__description form-group col-md-6 col-sm-6 col-12">
             <label asp-for="Description"></label>
-            <textarea asp-for="Description" rows="3" class="form-control" readonly></textarea>
+            <textarea asp-for="Description" rows="5" class="form-control" readonly></textarea>
         </div>
     </div>
+    <div class="d-flex justify-content-center mb-2" style="max-width: 200px;">
+        <img src="/uploads/@Model.Post" alt="@Model.Name" class="img-thumbnail">
+    </div>
     <a class="btn btn-outline-secondary btn-sm" asp-controller="Home" asp-action="Index">Назад</a>
-    <a class="btn btn-outline-info btn-sm" asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Id">Редактировать</a>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a class="btn btn-outline-info btn-sm" asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Id">Редактировать</a>
+    }
 </div>

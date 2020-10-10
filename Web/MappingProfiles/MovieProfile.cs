@@ -14,6 +14,8 @@ namespace Web.MappingProfiles
                     opts => 
                         opts.MapFrom(source => source.Producer.Name));
             CreateMap<MovieViewModel, Movie>();
+            CreateMap<Movie, MovieEditViewModel>();
+            CreateMap<MovieEditViewModel, Movie>();
         }
     }
 }

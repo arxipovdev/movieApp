@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Web.Models
 {
@@ -8,10 +9,15 @@ namespace Web.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
+        
+        [Required]
         public DateTime CreateAt { get; set; }
+        
+        [Required]
         public DateTime UpdateAt { get; set; }
         public DateTime? DeleteAt { get; set; }
 
+        [Required]
         public string UserId { get; set; }
         public User User { get; set; }
         

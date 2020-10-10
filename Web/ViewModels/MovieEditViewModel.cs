@@ -1,10 +1,8 @@
-using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 
 namespace Web.ViewModels
 {
-    public class MovieViewModel
+    public class MovieEditViewModel
     {
         public int Id { get; set; }
         
@@ -20,17 +18,11 @@ namespace Web.ViewModels
         [Display(Name = "Описание")]
         public string Description { get; set; }
         
+        [Required(ErrorMessage = "Загрузите пост")]
         public string Post { get; set; }
         
         [Required(ErrorMessage = "Обязательное поле")]
         [Display(Name = "Режисер")]
         public int ProducerId { get; set; }
-        
-        public string ProducerName { get; set; }
-        
-        [Required(ErrorMessage = "Выберите постер")]
-        [DataType(DataType.Upload)]
-        [Display(Name = "Постер")]
-        public IFormFile File { get; set; }
     }
 }

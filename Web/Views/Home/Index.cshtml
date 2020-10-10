@@ -4,69 +4,52 @@
 }
 
 <div class="movie-list">
-    <div class="movie-list__header d-flex justify-content-end">
-        <a class="movie-list__btn-add btn btn-outline-info btn-sm" asp-controller="Home" asp-action="Create">
-            <i class="fa fa-plus" aria-hidden="true"></i> Добавить
-        </a>
+    @if(User.Identity.IsAuthenticated)
+    {
+        <div class="movie-list__header pr-2 d-flex justify-content-end">
+            <a class="movie-list__btn-add btn btn-outline-info btn-sm" asp-controller="Home" asp-action="Create">
+                <i class="fa fa-plus" aria-hidden="true"></i> Добавить
+            </a>
+        </div>
+    }
+    <div class="row mt-3">
+        <div class="col-md-12 d-flex flex-wrap justify-content-center">
+            @foreach (var movie in Model)
+            {
+                <div class="card mr-2 mb-2" style="width: 16rem;">
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@movie.Id">
+                        <img src="/uploads/@movie.Post" class="card-img-top" alt="@movie.Name">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">@movie.Name</h5>
+                        <div class="card-subtitle">@movie.ProducerName</div>
+                        <p class="card-text">@movie.Year</p>
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@movie.Id" class="btn-link">Подробнее</a>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
-    <table class="movie-list__table table table-hover mt-2">
-        <thead>
-        <tr>
-            <th scope="col">Картинка</th>
-            <th scope="col">Название</th>
-            <th scope="col">Год</th>
-            <th scope="col">Режисер</th>
-            <th scope="col">Описание</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var movie in Model)
-        {
-            <tr>
-                <td>@movie.Post</td>
-                <td>@movie.Name</td>
-                <td>@movie.Year</td>
-                <td>@movie.ProducerName</td>
-                <td>@movie.Description</td>
-                <td>
-                    <a class="btn btn-outline-info btn-sm"
-                       asp-controller="Home"
-                       asp-action="Details"
-                       asp-route-id="@movie.Id"
-                       data-toggle="tooltip"
-                       data-placement="top"
-                       title="Подробнее"
-                    >
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
-                    </a>
-                    <a class="btn btn-outline-info btn-sm"
-                       asp-controller="Home"
-                       asp-action="Edit"
-                       asp-route-id="@movie.Id"
-                       data-toggle="tooltip"
-                       data-placement="top"
-                       title="Редактировать"
-                    >
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </a>
-                    <a class="movie-list__btn-remove btn btn-outline-danger btn-sm"
-                       href="javascript:void(0)"
-                       data-toggle="tooltip"
-                       data-placement="top"
-                       title="Удалить"
-                       data-id="@movie.Id"
-                       data-name="@movie.Name"
-                    >
-                        <i class="fa fa-trash-o"  aria-hidden="true"></i>
-                    </a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    
+    <nav class="d-flex justify-content-center mt-3">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-    <div id="confirmDeletemovieModal" class="modal" tabindex="-1">
+    <div id="confirmDeleteMovieModal" class="modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

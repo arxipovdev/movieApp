@@ -13,12 +13,12 @@ namespace Web.Repositories
     public class MovieRepository : IMovieRepository
     {
         private readonly AppDbContext _db;
-        private readonly string _userId;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public MovieRepository(AppDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _db = context;
-            _userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<IEnumerable<Movie>> GetAll()
         {
@@ -36,7 +36,7 @@ namespace Web.Repositories
 
         public async Task<bool> Create(Movie movie)
         {
-            movie.UserId = _userId;
+            movie.UserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             movie.CreateAt = movie.UpdateAt = DateTime.Now;
             await _db.AddAsync(movie);
             var created = await _db.SaveChangesAsync();
@@ -62,7 +62,7 @@ namespace Web.Repositories
 
         public bool CheckUser(Movie movie)
         {
-            return _userId == movie.UserId;
+            return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value == movie.UserId;
         }
     }
 }
