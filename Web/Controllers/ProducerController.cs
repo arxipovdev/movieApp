@@ -27,7 +27,7 @@ namespace Movies.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var producers = await _repository.GetAll();
+            var producers = await _repository.GetAllAsync();
             return View( _mapper.Map<IEnumerable<ProducerViewModel>>(producers));
         }
         
@@ -41,14 +41,14 @@ namespace Movies.Web.Controllers
         public async Task<ActionResult> Create(ProducerViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            var created = await _repository.Create(_mapper.Map<Producer>(model));
+            var created = await _repository.CreateAsync(_mapper.Map<Producer>(model));
             if (!created) return NotFound();
             return RedirectToAction(nameof(Index));
         }
         
         public async Task<ActionResult> Details(int id)
         {
-            var producer = await _repository.GetById(id);
+            var producer = await _repository.GetByIdAsync(id);
             if(producer == null) return NotFound();
             return View(_mapper.Map<ProducerViewModel>(producer));
         }
@@ -65,14 +65,14 @@ namespace Movies.Web.Controllers
             if (id != model.Id) return BadRequest();
             if (!ModelState.IsValid) return View(model);
 
-            var producer = await _repository.GetById(id);
+            var producer = await _repository.GetByIdAsync(id);
             if (!_repository.CheckUser(producer))
             {
                 ModelState.AddModelError(string.Empty, "Редактировать может только тот кто создавал");
                 return View(model);
             }
             _mapper.Map(model, producer);
-            var updated = await _repository.Update(producer);
+            var updated = await _repository.UpdateAsync(producer);
             if (!updated) return NotFound();
             return RedirectToAction(nameof(Index));
         }
@@ -80,7 +80,7 @@ namespace Movies.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
-            var deleted = await _repository.Delete(id);
+            var deleted = await _repository.DeleteAsync(id);
             if (!deleted) return NotFound();
             return RedirectToAction(nameof(Index));
         }

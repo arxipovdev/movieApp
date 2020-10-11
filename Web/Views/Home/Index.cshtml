@@ -1,8 +1,7 @@
-﻿@model IEnumerable<MovieViewModel>
+﻿@model MovieIndexViewModel
 @{
     ViewData["Title"] = "Главная";
 }
-
 <div class="movie-list">
     @if(User.Identity.IsAuthenticated)
     {
@@ -12,9 +11,9 @@
             </a>
         </div>
     }
-    <div class="row mt-3">
+    <div class="movie-list__data row mt-3">
         <div class="col-md-12 d-flex flex-wrap justify-content-center">
-            @foreach (var movie in Model)
+            @foreach (var movie in Model.Data)
             {
                 <div class="card mr-2 mb-2" style="width: 16rem;">
                     <a asp-controller="Home" asp-action="Details" asp-route-id="@movie.Id">
@@ -26,46 +25,21 @@
                         <p class="card-text">@movie.Year</p>
                         <a asp-controller="Home" asp-action="Details" asp-route-id="@movie.Id" class="btn-link">Подробнее</a>
                     </div>
+                    @if (movie.IsEdited)
+                    {
+                        <div class="position-absolute" style="right: 10px; top: 10px;">
+                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@movie.Id">
+                                <i class="fa fa-edit fa-lg text-light mr-1"></i>
+                            </a>
+                            <a href="javascript:void(0)" class="movie-list__btn-remove" data-id="@movie.Id" data-name="@movie.Name">
+                                <i class="fa fa-trash fa-lg text-light"></i>
+                            </a>
+                        </div>
+                    }
                 </div>
             }
         </div>
     </div>
-    
-    <nav class="d-flex justify-content-center mt-3">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
-    <div id="confirmDeleteMovieModal" class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Удаление!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Вы действительно хотите удалить: <span class="font-weight-bold"></span>!</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Отмена</button>
-                    <a href="" class="movie-list__btn-confirm btn btn-outline-info">Удалить</a>
-                </div>
-            </div>
-          </div>
-    </div>
+    <partial name="Home/_PaginationPartial" />
+    <partial name="Home/_ConfirmModalPartial" />
 </div>

@@ -27,6 +27,7 @@ namespace Web.ViewModels
         public int ProducerId { get; set; }
         
         public string ProducerName { get; set; }
+        public bool IsEdited { get; set; }
         
         [Required(ErrorMessage = "Выберите постер")]
         [DataType(DataType.Upload)]

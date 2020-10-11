@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Web.Data;
 using Web.Models;
+using Web.ViewModels;
 
 namespace Web.Repositories
 {
@@ -20,7 +22,7 @@ namespace Web.Repositories
             _db = context;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<IEnumerable<Movie>> GetAll()
+        public async Task<IEnumerable<Movie>> GetAllAsync()
         {
             return await _db.Movies
                 .Include(x => x.Producer)
@@ -29,12 +31,12 @@ namespace Web.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Movie> GetById(int id)
+        public async Task<Movie> GetByIdAsync(int id)
         {
             return await _db.Movies.FindAsync(id);
         }
 
-        public async Task<bool> Create(Movie movie)
+        public async Task<bool> CreateAsync(Movie movie)
         {
             movie.UserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             movie.CreateAt = movie.UpdateAt = DateTime.Now;
@@ -43,7 +45,7 @@ namespace Web.Repositories
             return created > 0;
         }
 
-        public async Task<bool> Update(Movie movie)
+        public async Task<bool> UpdateAsync(Movie movie)
         {
             movie.UpdateAt = DateTime.Now;
             _db.Update(movie);
@@ -51,9 +53,9 @@ namespace Web.Repositories
             return updated > 0;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var movie = await GetById(id);
+            var movie = await GetByIdAsync(id);
             movie.DeleteAt = DateTime.Now;
             _db.Update(movie);
             var deleted = await _db.SaveChangesAsync();
@@ -63,6 +65,22 @@ namespace Web.Repositories
         public bool CheckUser(Movie movie)
         {
             return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value == movie.UserId;
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return await _db.Movies.CountAsync();
+        }
+        
+        public async Task<IEnumerable<Movie>> GetPaginateAsync(int numberPage, int sizePage)
+        {
+            return await _db.Movies
+                .Where(x => x.DeleteAt == null)
+                .Include(x => x.Producer)
+                .OrderByDescending(x => x.CreateAt)
+                .Skip((numberPage - 1) * sizePage)
+                .Take(sizePage)
+                .ToListAsync();
         }
     }
 }

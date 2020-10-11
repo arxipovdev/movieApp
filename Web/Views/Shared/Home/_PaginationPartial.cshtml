@@ -1,0 +1,41 @@
+@model MovieIndexViewModel
+@{
+    var previous = Model.NumberPage - 1;
+    var next = Model.NumberPage  + 1;
+}
+
+<nav class="d-flex justify-content-center mt-3">
+    <ul class="pagination">
+        @if (Model.NumberPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" asp-action="Index" asp-route-page="1">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        }
+        @if (Model.IsPreviousPage)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="@previous">@previous</a>
+            </li>
+        }
+        <li class="page-item active">
+            <a class="page-link">@Model.NumberPage</a>
+        </li>
+        @if (Model.IsNextPage)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="@next">@next</a>
+            </li>
+        }
+        @if (Model.NumberPage != next && Model.NumberPage != Model.TotalPage)
+        {
+            <li class="page-item">
+                <a class="page-link" aria-label="Next" asp-action="Index" asp-route-page="@Model.TotalPage">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

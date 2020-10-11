@@ -1,41 +1,72 @@
 @model MovieViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
 
-<div class="movie">
-    <div class="form-row">
-        <div class="movie__name form-group col-md-6 col-sm-6 col-12">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" readonly>
+<div class="movie-detail row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="movie-detail__title">@Model.Name</h1>
+            @if (@Model.IsEdited)
+            {
+                <div class="movie-detail__actions">
+                    <a class="btn btn-outline-info btn-sm" asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Id">Редактировать</a>
+                </div>
+            }
+        </div>
+        <hr>
+        <div class="movie-detail__year">Год: <span>@Model.Year</span></div>
+        <div class="movie-detail__producer">Режисер: <span>@Model.ProducerName</span></div>
+        <hr>
+        <div class="movie-detail__content">
+            <img class="movie-detail__post img-thumbnail" src="/uploads/@Model.Post" alt="@Model.Name">
+            <p class="movie-detail__description">@Model.Description</p>
         </div>
     </div>
-    <div class="form-row">
-        <div class="movie__year form-group col-md-6 col-sm-6 col-12">
-            <label asp-for="Year"></label>
-            <input asp-for="Year" class="form-control" readonly>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6 col-sm-6 col-12">
-            <label asp-for="ProducerId"></label>
-            <select asp-for="ProducerId" class="form-control" readonly>
-                @foreach (var producer in ViewBag.producers)
-                {
-                    <option value="@producer.Id">@producer.Name</option>
-                }
-            </select>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="movie__description form-group col-md-6 col-sm-6 col-12">
-            <label asp-for="Description"></label>
-            <textarea asp-for="Description" rows="5" class="form-control" readonly></textarea>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center mb-2" style="max-width: 200px;">
-        <img src="/uploads/@Model.Post" alt="@Model.Name" class="img-thumbnail">
-    </div>
-    <a class="btn btn-outline-secondary btn-sm" asp-controller="Home" asp-action="Index">Назад</a>
-    @if (User.Identity.IsAuthenticated)
-    {
-        <a class="btn btn-outline-info btn-sm" asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Id">Редактировать</a>
-    }
 </div>
+
+
+@* *@
+@* <nav aria-label="breadcrumb"> *@
+@*     <ol class="breadcrumb"> *@
+@*         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Главная</a></li> *@
+@*         <li class="breadcrumb-item active" aria-current="page">@Model.Name</li> *@
+@*     </ol> *@
+@* </nav> *@
+@* *@
+@* <div class="movie-detail"> *@
+@*     <div class="form-row"> *@
+@*         <div class="movie__name form-group col-md-6 col-sm-6 col-12"> *@
+@*             <label asp-for="Name"></label> *@
+@*             <input asp-for="Name" class="form-control" readonly> *@
+@*         </div> *@
+@*     </div> *@
+@*     <div class="form-row"> *@
+@*         <div class="movie__year form-group col-md-6 col-sm-6 col-12"> *@
+@*             <label asp-for="Year"></label> *@
+@*             <input asp-for="Year" class="form-control" readonly> *@
+@*         </div> *@
+@*     </div> *@
+@*     <div class="form-row"> *@
+@*         <div class="form-group col-md-6 col-sm-6 col-12"> *@
+@*             <label asp-for="ProducerId"></label> *@
+@*             <select asp-for="ProducerId" class="form-control" readonly> *@
+@*                 @foreach (var producer in ViewBag.producers) *@
+@*                 { *@
+@*                     <option value="@producer.Id">@producer.Name</option> *@
+@*                 } *@
+@*             </select> *@
+@*         </div> *@
+@*     </div> *@
+@*     <div class="form-row"> *@
+@*         <div class="movie__description form-group col-md-6 col-sm-6 col-12"> *@
+@*             <label asp-for="Description"></label> *@
+@*             <textarea asp-for="Description" rows="5" class="form-control" readonly></textarea> *@
+@*         </div> *@
+@*     </div> *@
+@*     <div class="d-flex justify-content-center mb-2" style="max-width: 200px;"> *@
+@*         <img src="/uploads/@Model.Post" alt="@Model.Name" class="img-thumbnail"> *@
+@*     </div> *@
+@*     <a class="btn btn-outline-secondary btn-sm" asp-controller="Home" asp-action="Index">Назад</a> *@
+
+@* </div> *@
